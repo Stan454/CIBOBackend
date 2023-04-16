@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.Stan.CIBO.Exceptions.NotFoundException;
 import com.Stan.CIBO.Exceptions.SaveException;
 import com.Stan.CIBO.Models.Dish;
+import com.Stan.CIBO.Models.Restaurant;
 import com.Stan.CIBO.Repositories.DishRepo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,19 +29,20 @@ class DishServiceImplTest {
     private DishServiceImpl dishService;
 
     private List<Dish> dishList;
+    Restaurant restaurant = new Restaurant(0,"Giorno's pizza");
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         dishList = new ArrayList<>();
-        dishList.add(new Dish(1, "Pizza", "Better with cheese", 10.0));
-        dishList.add(new Dish(2, "Spaghetti Bowl", "Bigger and better", 20.0));
+        dishList.add(new Dish(1, "Pizza", "Better with cheese", 10.0, restaurant));
+        dishList.add(new Dish(2, "Spaghetti Bowl", "Bigger and better", 20.0, restaurant));
     }
 
     @Test
     void should_saveDish() {
         //Arrange
-        Dish dish = new Dish(3,"Spaghetti","European noodles", 10.99);
+        Dish dish = new Dish(3,"Spaghetti","European noodles", 10.99, restaurant);
 
         //Act
         when(dishRepoMock.save(dish)).thenReturn(dish);
@@ -48,7 +50,7 @@ class DishServiceImplTest {
         //Assert
         Dish savedDish = null;
         try {
-            savedDish = dishService.saveDish(dish);
+            savedDish = dishService.saveDish(0, dish);
         } catch (SaveException e) {
             throw new RuntimeException(e);
         }
@@ -60,10 +62,10 @@ class DishServiceImplTest {
     @Test
     void shouldNot_saveDish() {
         //Arrange
-        Dish dish = new Dish(3, "", "European noodles", 10.99);
+        Dish dish = new Dish(3, "", "European noodles", 10.99, restaurant);
 
         //Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> dishService.saveDish(dish));
+        assertThrows(IllegalArgumentException.class, () -> dishService.saveDish(0,dish));
     }
 
 

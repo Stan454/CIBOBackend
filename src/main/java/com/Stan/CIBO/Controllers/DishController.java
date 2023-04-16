@@ -15,10 +15,10 @@ public class DishController {
     @Autowired
     private DishService dishService;
 
-    @PostMapping("/add")
-    public ResponseEntity<String> add(@RequestBody Dish dish) {
+    @PostMapping("/{restaurantId}/add")
+    public ResponseEntity<String> add(@PathVariable int restaurantId,@RequestBody Dish dish) {
         try {
-            dishService.saveDish(dish);
+            dishService.saveDish(restaurantId, dish);
             return ResponseEntity.status(HttpStatus.CREATED).body("New Dish added");
         } catch (IllegalArgumentException | SaveException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid input");
@@ -36,9 +36,9 @@ public class DishController {
     }
 
     @GetMapping("/getById/{id}")
-    public ResponseEntity<Dish> getDishById(@PathVariable int id){
-     Dish dish = dishService.findById(id);
-        if (dish != null){
+    public ResponseEntity<Dish> getDishById(@PathVariable int id) {
+        Dish dish = dishService.findById(id);
+        if (dish != null) {
             return ResponseEntity.ok(dish);
         } else {
             return ResponseEntity.notFound().build();

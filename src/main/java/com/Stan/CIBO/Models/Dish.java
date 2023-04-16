@@ -1,9 +1,7 @@
 package com.Stan.CIBO.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 @Entity
 public class Dish {
@@ -14,7 +12,27 @@ public class Dish {
     private String description;
     private double price;
 
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="restaurant_id", referencedColumnName = "id")
+    private Restaurant restaurant;
+
     public Dish() {
+    }
+
+    public Dish(int Id, String Name, String Description, double Price, Restaurant Restaurant) {
+        this.id = Id;
+        this.name = Name;
+        this.description = Description;
+        this.price = Price;
+        this.restaurant = Restaurant;
     }
 
     public Dish(int Id, String Name, String Description, double Price) {
