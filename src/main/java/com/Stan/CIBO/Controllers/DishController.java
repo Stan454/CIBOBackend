@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/dish")
+@RequestMapping("/v1/dishes")
 public class DishController {
     @Autowired
     private DishService dishService;
 
-    @PostMapping("/{restaurantId}/add")
+    @PostMapping("/{restaurantId}")
     public ResponseEntity<String> add(@PathVariable int restaurantId,@RequestBody Dish dish) {
         try {
             dishService.saveDish(restaurantId, dish);
@@ -25,7 +25,7 @@ public class DishController {
         }
     }
 
-    @GetMapping("/getAll")
+    @GetMapping()
     public ResponseEntity<List<Dish>> getAllDishes(){
         List<Dish> dishes = dishService.getAllDishes();
         if(dishes.isEmpty()) {
@@ -35,7 +35,7 @@ public class DishController {
         }
     }
 
-    @GetMapping("/getById/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Dish> getDishById(@PathVariable int id) {
         Dish dish = dishService.findById(id);
         if (dish != null) {
