@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/dishes")
+@RequestMapping("/v1/restaurants/dishes")
 public class DishController {
     @Autowired
     private DishService dishService;
@@ -25,11 +25,11 @@ public class DishController {
         }
     }
 
-    @GetMapping()
-    public ResponseEntity<List<Dish>> getAllDishes(){
-        List<Dish> dishes = dishService.getAllDishes();
+    @GetMapping("/{restaurantId}/dishes")
+    public ResponseEntity<List<Dish>> getAllDishesByRestaurant(@PathVariable int restaurantId){
+        List<Dish> dishes = dishService.getAllDishesByRestaurantId(restaurantId);
         if(dishes.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(dishes, HttpStatus.OK);
         }

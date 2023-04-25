@@ -2,6 +2,13 @@ package com.Stan.CIBO.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.*;
+
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 
 @Entity
 public class Dish {
@@ -23,17 +30,6 @@ public class Dish {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="restaurant_id", referencedColumnName = "id")
     private Restaurant restaurant;
-
-    public Dish() {
-    }
-
-    public Dish(int Id, String Name, String Description, double Price, Restaurant Restaurant) {
-        this.id = Id;
-        this.name = Name;
-        this.description = Description;
-        this.price = Price;
-        this.restaurant = Restaurant;
-    }
 
     public Dish(int Id, String Name, String Description, double Price) {
         this.id = Id;

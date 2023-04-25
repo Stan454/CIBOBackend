@@ -8,6 +8,7 @@ import com.Stan.CIBO.Repositories.DishRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,8 +35,15 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public List<Dish> getAllDishes() {
-        return dishrepo.findAll();
+    public List<Dish> getAllDishesByRestaurantId(int restaurantId) {
+        List<Dish> dishes = dishrepo.findAll();
+        List<Dish> restaurantDishes = new ArrayList<>();
+        for (Dish dish : dishes) {
+            if (dish.getRestaurant() != null && dish.getRestaurant().getId() == restaurantId) {
+                restaurantDishes.add(dish);
+            }
+        }
+        return restaurantDishes;
     }
 
     @Override

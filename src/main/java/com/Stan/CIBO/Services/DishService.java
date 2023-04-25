@@ -8,6 +8,6 @@ import java.util.List;
 @Service
 public interface DishService {
     public Dish saveDish(int restaurantId,Dish dish) throws SaveException;
-    public List<Dish> getAllDishes();
+    public List<Dish> getAllDishesByRestaurantId(int restaurantId);
     public Dish findById(int id);
 }
