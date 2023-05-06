@@ -17,6 +17,7 @@ public class Dish {
     private int id;
     private String name;
     private String description;
+    private DishCategory dishCategory;
     private double price;
 
     public Restaurant getRestaurant() {

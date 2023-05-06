@@ -3,6 +3,7 @@ package com.Stan.CIBO.Services;
 import com.Stan.CIBO.Exceptions.NotFoundException;
 import com.Stan.CIBO.Exceptions.SaveException;
 import com.Stan.CIBO.Models.Dish;
+import com.Stan.CIBO.Models.DishCategory;
 import com.Stan.CIBO.Models.Restaurant;
 import com.Stan.CIBO.Repositories.DishRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class DishServiceImpl implements DishService {
     private RestaurantServiceImpl restaurantService;
     @Override
     public Dish saveDish(int restaurandId, Dish dish) throws SaveException{
-        if(dish == null || dish.getName().isEmpty() || dish.getDescription().isEmpty() || Objects.isNull(restaurandId) ||Objects.isNull(dish.getPrice())){
+        if(dish == null || dish.getName().isEmpty() || dish.getDescription().isEmpty() || Objects.isNull(dish.getDishCategory())|| Objects.isNull(restaurandId) ||Objects.isNull(dish.getPrice())){
             throw new IllegalArgumentException("All fields need to be filled");
         }
         try{
