@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class DishServiceImpl implements DishService {
@@ -22,12 +23,12 @@ public class DishServiceImpl implements DishService {
     @Autowired
     private RestaurantServiceImpl restaurantService;
     @Override
-    public Dish saveDish(int restaurandId, Dish dish) throws SaveException{
-        if(dish == null || dish.getName().isEmpty() || dish.getDescription().isEmpty() || Objects.isNull(dish.getDishCategory())|| Objects.isNull(restaurandId) ||Objects.isNull(dish.getPrice())){
+    public Dish saveDish(int restaurantId, Dish dish) throws SaveException{
+        if(dish == null || dish.getName().isEmpty() || dish.getDescription().isEmpty() || Objects.isNull(dish.getDishCategory())|| Objects.isNull(restaurantId) ||Objects.isNull(dish.getPrice())){
             throw new IllegalArgumentException("All fields need to be filled");
         }
         try{
-            Restaurant restaurant = restaurantService.findById(restaurandId);
+            Restaurant restaurant = restaurantService.findById(restaurantId);
             dish.setRestaurant(restaurant);
             return dishrepo.save(dish);
         } catch (Exception e){
@@ -55,4 +56,23 @@ public class DishServiceImpl implements DishService {
         }
         return dish;
     }
+
+    public void deleteDish(int dishId) throws NotFoundException {
+        // Check if the dish exists
+        Optional<Dish> optionalDish = dishrepo.findById(dishId);
+        if (optionalDish.isPresent()) {
+            Dish dish = optionalDish.get();
+
+            // Remove the dish from the association with the restaurant
+            dish.setRestaurant(null);
+            dishrepo.save(dish);
+
+            // Delete the dish
+            dishrepo.deleteById(dishId);
+        } else {
+            throw new NotFoundException("Dish not found with ID: " + dishId);
+        }
+    }
+
+
 }

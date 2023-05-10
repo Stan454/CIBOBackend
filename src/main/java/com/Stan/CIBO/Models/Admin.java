@@ -10,7 +10,7 @@ public class Admin {
     private String name;
     private String password;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "id", nullable = false)
     private Restaurant restaurant;
 
     public Restaurant getRestaurant() {

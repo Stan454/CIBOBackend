@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
+
 @Entity
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    //@JsonIgnore //prevents recursive problem
-    //@OneToMany(mappedBy = "restaurant")
-    //private List<Admin> admins;
     @JsonIgnore
     @OneToMany(mappedBy = "restaurant")
     private List<Dish> dishes;
-
+    @OneToMany(mappedBy = "restaurant")
+    private Set<Admin> admins;
     public Restaurant(){
 
     }

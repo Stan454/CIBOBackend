@@ -25,6 +25,16 @@ public class DishController {
         }
     }
 
+    @DeleteMapping("/{dishId}")
+    public ResponseEntity<String> deleteDish(@PathVariable int dishId) {
+        try {
+            dishService.deleteDish(dishId);
+            return ResponseEntity.status(HttpStatus.OK).body("Dish with ID " + dishId + " deleted");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid input");
+        }
+    }
+
     @GetMapping("/{restaurantId}/dishes")
     public ResponseEntity<List<Dish>> getAllDishesByRestaurant(@PathVariable int restaurantId){
         List<Dish> dishes = dishService.getAllDishesByRestaurantId(restaurantId);
